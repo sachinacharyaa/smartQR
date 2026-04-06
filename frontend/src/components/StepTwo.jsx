@@ -1,24 +1,123 @@
+import { useMemo } from 'react';
 import QrPreview from './QrPreview.jsx';
 
+const tabItems = [
+  { key: 'Pattern', label: 'Pattern', icon: 'pattern' },
+  { key: 'Eyes', label: 'Eyes', icon: 'eyes' },
+  { key: 'Logo', label: 'Logo', icon: 'logo' },
+  { key: 'Colors', label: 'Colors', icon: 'colors' },
+  { key: 'Frame', label: 'Frame', icon: 'frame' },
+  { key: 'Templates', label: 'Templates', icon: 'templates' }
+];
+
 const patternOptions = [
-  { id: 'square', label: 'Square' },
-  { id: 'rounded', label: 'Rounded' },
-  { id: 'dots', label: 'Dots' },
-  { id: 'classy', label: 'Classy' },
-  { id: 'extra-rounded', label: 'Extra rounded' }
+  { id: 'square' },
+  { id: 'rounded' },
+  { id: 'dots' },
+  { id: 'classy' },
+  { id: 'extra-rounded' },
+  { id: 'rounded-2' },
+  { id: 'diamond' },
+  { id: 'circle' },
+  { id: 'dots-2' }
 ];
 
-const eyeSquares = [
-  { id: 'square', label: 'Square' },
-  { id: 'extra-rounded', label: 'Soft' }
+const eyeOptions = [
+  { id: 'eye-1' },
+  { id: 'eye-2' },
+  { id: 'eye-3' },
+  { id: 'eye-4' },
+  { id: 'eye-5' },
+  { id: 'eye-6' },
+  { id: 'eye-7' },
+  { id: 'eye-8' },
+  { id: 'eye-9' },
+  { id: 'eye-10' },
+  { id: 'eye-11' },
+  { id: 'eye-12' },
+  { id: 'eye-13' },
+  { id: 'eye-14' },
+  { id: 'eye-15' }
 ];
 
-const eyeDots = [
-  { id: 'dot', label: 'Dot' },
-  { id: 'square', label: 'Square' }
+const frameOptions = [
+  { id: 'frame-none', label: 'None' },
+  { id: 'frame-soft', label: 'Soft' },
+  { id: 'frame-bold', label: 'Bold' },
+  { id: 'frame-card', label: 'Card' },
+  { id: 'frame-round', label: 'Round' },
+  { id: 'frame-solid', label: 'Solid' },
+  { id: 'frame-tag', label: 'Tag' },
+  { id: 'frame-cut', label: 'Cut' }
 ];
+
+const templateOptions = [
+  { id: 'temp-1' },
+  { id: 'temp-2' },
+  { id: 'temp-3' },
+  { id: 'temp-4' },
+  { id: 'temp-5' },
+  { id: 'temp-6' },
+  { id: 'temp-7' },
+  { id: 'temp-8' },
+  { id: 'temp-9' },
+  { id: 'temp-10' },
+  { id: 'temp-11' },
+  { id: 'temp-12' }
+];
+
+const logoOptions = [
+  'F', 'IG', 'P', 'X', 'YT', 'SC', 'TT', 'IN', 'WA', 'TG', 'ME', 'DOC', 'GM', 'PP', 'V', 'SP', 'WE', 'YP'
+];
+
+function TabIcon({ name }) {
+  if (name === 'pattern') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 6h4v4H6zM14 6h4v4h-4zM6 14h4v4H6z" fill="none" stroke="currentColor" strokeWidth="2" />
+      </svg>
+    );
+  }
+  if (name === 'eyes') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
+        <circle cx="12" cy="12" r="1" fill="currentColor" />
+      </svg>
+    );
+  }
+  if (name === 'logo') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4" y="4" width="16" height="16" rx="3" fill="none" stroke="currentColor" strokeWidth="2" />
+        <path d="M8 15l3-3 3 3" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (name === 'colors') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M7 4v6M12 4v10M17 4v6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (name === 'frame') {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="4" y="4" width="16" height="16" rx="3" fill="none" stroke="currentColor" strokeWidth="2" />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 5h6v6H5zM13 5h6v6h-6zM5 13h6v6H5zM13 13h6v6h-6z" fill="none" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  );
+}
 
 export default function StepTwo({
+  activeTab,
+  setActiveTab,
   style,
   setStyle,
   data,
@@ -31,70 +130,57 @@ export default function StepTwo({
 }) {
   const updateStyle = (key, value) => setStyle({ ...style, [key]: value });
 
-  return (
-    <div className="step-card">
-      <div className="step-card__header">
-        <span className="step-chip">Step 2</span>
-        <h3>Customize your QR</h3>
-        <p className="muted">All options are visible here for a faster workflow.</p>
-      </div>
-      <div className="step-two">
-        <div className="step-two__controls">
-          <div className="control-section">
-            <h4>Pattern</h4>
-            <div className="option-grid">
-              {patternOptions.map((opt) => (
-                <button
-                  key={opt.id}
-                  className={style.pattern === opt.id ? 'chip chip--active' : 'chip'}
-                  onClick={() => updateStyle('pattern', opt.id)}
-                >
-                  <span className="chip__swatch" />
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
+  const tabContent = useMemo(() => {
+    if (activeTab === 'Pattern') {
+      return (
+        <div className="pattern-grid">
+          {patternOptions.map((opt) => (
+            <button
+              key={opt.id}
+              className={style.pattern === opt.id ? 'pattern-card pattern-card--active' : 'pattern-card'}
+              onClick={() => updateStyle('pattern', opt.id)}
+            >
+              <span className={`pattern-thumb pattern-thumb--${opt.id}`} />
+            </button>
+          ))}
+        </div>
+      );
+    }
 
-          <div className="control-section">
-            <h4>Eyes</h4>
-            <div className="option-group">
-              <div>
-                <p className="muted">Eye squares</p>
-                <div className="option-grid">
-                  {eyeSquares.map((opt) => (
-                    <button
-                      key={opt.id}
-                      className={style.eyeSquare === opt.id ? 'chip chip--active' : 'chip'}
-                      onClick={() => updateStyle('eyeSquare', opt.id)}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <p className="muted">Eye dots</p>
-                <div className="option-grid">
-                  {eyeDots.map((opt) => (
-                    <button
-                      key={opt.id}
-                      className={style.eyeDot === opt.id ? 'chip chip--active' : 'chip'}
-                      onClick={() => updateStyle('eyeDot', opt.id)}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+    if (activeTab === 'Eyes') {
+      return (
+        <div>
+          <div className="info-row">
+            <span className="info-dot">i</span>
+            Select eyes to make your QR code stand out. Eyes are what your camera recognizes when scanning.
           </div>
+          <div className="eye-grid">
+            {eyeOptions.map((opt) => (
+              <button
+                key={opt.id}
+                className={style.eyeStyle === opt.id ? 'eye-card eye-card--active' : 'eye-card'}
+                onClick={() => updateStyle('eyeStyle', opt.id)}
+              >
+                <span className={`eye-thumb ${opt.id}`} />
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
 
-          <div className="control-section">
-            <h4>Logo</h4>
-            <div className="option-group">
-              <label className="file">
-                Upload logo (PNG/SVG)
+    if (activeTab === 'Logo') {
+      return (
+        <div>
+          <div className="info-row">
+            <span className="info-dot">i</span>
+            Add your logo for stronger brand recall (300 x 300px, 72dpi)
+          </div>
+          <div className="logo-upload">
+            <div className="logo-upload__preview">SCAN<br />ME</div>
+            <div className="logo-upload__actions">
+              <label className="upload-btn">
+                Upload
                 <input
                   type="file"
                   accept="image/*"
@@ -107,195 +193,174 @@ export default function StepTwo({
                   }}
                 />
               </label>
-              <label>
-                Logo margin
-                <input
-                  type="range"
-                  min="0"
-                  max="16"
-                  value={style.logoMargin ?? 6}
-                  onChange={(e) => updateStyle('logoMargin', Number(e.target.value))}
-                />
-              </label>
               <button className="ghost" onClick={() => updateStyle('logo', null)}>Remove logo</button>
             </div>
-          </div>
-
-          <div className="control-section">
-            <h4>Colors</h4>
-            <div className="option-group">
-              <label>
-                Dot color
-                <input
-                  type="color"
-                  value={style.dotsColor}
-                  onChange={(e) => updateStyle('dotsColor', e.target.value)}
-                />
-              </label>
-              <label>
-                Eye color
-                <input
-                  type="color"
-                  value={style.eyeColor}
-                  onChange={(e) => updateStyle('eyeColor', e.target.value)}
-                />
-              </label>
-              <label>
-                Background color
-                <input
-                  type="color"
-                  value={style.backgroundColor}
-                  onChange={(e) => updateStyle('backgroundColor', e.target.value)}
-                />
-              </label>
-              <label className="toggle-row">
-                <input
-                  type="checkbox"
-                  checked={Boolean(style.gradient)}
-                  onChange={(e) => updateStyle('gradient', e.target.checked)}
-                />
-                Gradient overlay (Pro)
-              </label>
+            <div className="logo-upload__formats">
+              <p>Supported formats:</p>
+              <span>PNG</span>
+              <span>JPG</span>
             </div>
           </div>
-
-          <div className="control-section">
-            <h4>Frame</h4>
-            <div className="option-group">
-              <label>
-                Frame text
-                <input
-                  value={style.frameText || ''}
-                  placeholder="Scan Me"
-                  onChange={(e) => updateStyle('frameText', e.target.value)}
-                />
-              </label>
-              <label>
-                CTA style
-                <select
-                  value={style.frameStyle || 'soft'}
-                  onChange={(e) => updateStyle('frameStyle', e.target.value)}
-                >
-                  <option value="soft">Soft</option>
-                  <option value="bold">Bold</option>
-                  <option value="outline">Outline</option>
-                </select>
-              </label>
-              <label className="toggle-row">
-                <input
-                  type="checkbox"
-                  checked={Boolean(style.proFrame)}
-                  onChange={(e) => updateStyle('proFrame', e.target.checked)}
-                />
-                Animated frame (Pro)
-              </label>
-            </div>
-          </div>
-
-          <div className="control-section">
-            <h4>Templates</h4>
-            <div className="option-grid">
-              {['Clean', 'Retro', 'Cafe', 'Futurist'].map((name) => (
-                <button
-                  key={name}
-                  className={style.template === name ? 'chip chip--active' : 'chip'}
-                  onClick={() => updateStyle('template', name)}
-                >
-                  <span className="chip__swatch" />
-                  {name}
-                </button>
-              ))}
-            </div>
-            <label className="toggle-row">
-              <input
-                type="checkbox"
-                checked={Boolean(style.saveTemplate)}
-                onChange={(e) => updateStyle('saveTemplate', e.target.checked)}
-              />
-              Save as template
-            </label>
-            <button className="ghost" onClick={onSaveTemplate}>Save template</button>
+          <div className="logo-grid">
+            {logoOptions.map((item) => (
+              <button
+                key={item}
+                className={style.logoPreset === item ? 'logo-pill logo-pill--active' : 'logo-pill'}
+                onClick={() => updateStyle('logoPreset', item)}
+              >
+                {item}
+              </button>
+            ))}
           </div>
         </div>
+      );
+    }
 
-        <div className="step-two__preview">
-          <div className="preview-card">
-            <QrPreview data={data} style={style} onReady={onReady} loading={loading} />
-            <div className="preview-actions">
-              <label className="toggle-row">
-                <input
-                  type="checkbox"
-                  checked={Boolean(style.dynamic)}
-                  onChange={(e) => updateStyle('dynamic', e.target.checked)}
-                />
-                Dynamic QR tracking (Pro)
-              </label>
-              <label className="toggle-row">
-                <input
-                  type="checkbox"
-                  checked={Boolean(style.password)}
-                  onChange={(e) => updateStyle('password', e.target.checked)}
-                />
-                Password protect (Pro)
-              </label>
-              <label className="toggle-row">
-                <input
-                  type="checkbox"
-                  checked={Boolean(style.expire)}
-                  onChange={(e) => updateStyle('expire', e.target.checked)}
-                />
-                Set expiry date (Pro)
-              </label>
-              <label className="toggle-row">
-                <input
-                  type="checkbox"
-                  checked={Boolean(style.geoRouting)}
-                  onChange={(e) => updateStyle('geoRouting', e.target.checked)}
-                />
-                Geo routing (Pro)
-              </label>
-              <label className="toggle-row">
-                <input
-                  type="checkbox"
-                  checked={Boolean(style.scanLimit)}
-                  onChange={(e) => updateStyle('scanLimit', e.target.checked)}
-                />
-                Scan limits (Pro)
-              </label>
-              <label className="toggle-row">
-                <input
-                  type="checkbox"
-                  checked={Boolean(style.utmTracking)}
-                  onChange={(e) => updateStyle('utmTracking', e.target.checked)}
-                />
-                UTM tracking (Pro)
-              </label>
-            </div>
-            <div className="download-row">
-              <button className="btn" onClick={onDownload}>Download</button>
-              <div className="download-options">
-                <label>
-                  <input
-                    type="radio"
-                    name="ext"
-                    checked={downloadExt === 'png'}
-                    onChange={() => setDownloadExt('png')}
-                  />
-                  PNG
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="ext"
-                    checked={downloadExt === 'svg'}
-                    onChange={() => setDownloadExt('svg')}
-                  />
-                  SVG
-                </label>
-              </div>
-            </div>
-            <p className="muted">Always scan to test your QR works before printing.</p>
+    if (activeTab === 'Colors') {
+      return (
+        <div>
+          <div className="info-row">
+            <span className="info-dot">i</span>
+            Embellish your customized QR with your brand colors
           </div>
+          <div className="color-mode">
+            <label><input type="radio" name="colormode" defaultChecked /> Solid Color</label>
+            <label><input type="radio" name="colormode" /> Gradient</label>
+            <label><input type="checkbox" defaultChecked /> Custom Eye Color</label>
+          </div>
+          <div className="color-grid">
+            <label>
+              Main color
+              <div className="color-row">
+                <input type="color" value={style.dotsColor} onChange={(e) => updateStyle('dotsColor', e.target.value)} />
+                <input type="text" value={style.dotsColor} onChange={(e) => updateStyle('dotsColor', e.target.value)} />
+              </div>
+            </label>
+            <label>
+              Eye color
+              <div className="color-row">
+                <input type="color" value={style.eyeColor} onChange={(e) => updateStyle('eyeColor', e.target.value)} />
+                <input type="text" value={style.eyeColor} onChange={(e) => updateStyle('eyeColor', e.target.value)} />
+              </div>
+            </label>
+            <label>
+              Background
+              <div className="color-row">
+                <input type="color" value={style.backgroundColor} onChange={(e) => updateStyle('backgroundColor', e.target.value)} />
+                <input type="text" value={style.backgroundColor} onChange={(e) => updateStyle('backgroundColor', e.target.value)} />
+              </div>
+            </label>
+            <label className="toggle-row">
+              <input type="checkbox" /> Transparent background
+            </label>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeTab === 'Frame') {
+      return (
+        <div>
+          <div className="info-row">
+            <span className="info-dot">i</span>
+            A QR with a frame and call-to-action gets more scans
+          </div>
+          <div className="frame-grid">
+            {frameOptions.map((opt) => (
+              <button
+                key={opt.id}
+                className={style.frameChoice === opt.id ? 'frame-card frame-card--active' : 'frame-card'}
+                onClick={() => updateStyle('frameChoice', opt.id)}
+              >
+                <span className={`frame-thumb ${opt.id}`} />
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <div className="info-row">
+          <span className="info-dot">i</span>
+          Choose a ready-made template (optional)
+        </div>
+        <div className="template-grid">
+          {templateOptions.map((opt) => (
+            <button
+              key={opt.id}
+              className={style.template === opt.id ? 'template-card template-card--active' : 'template-card'}
+              onClick={() => updateStyle('template', opt.id)}
+            >
+              <span className={`template-thumb ${opt.id}`} />
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }, [activeTab, style, onSaveTemplate]);
+
+  return (
+    <div className="step-card step-card--flat">
+      <div className="step-head">
+        <span className="step-pill">Step 2</span>
+        <h3>Customize your QR</h3>
+        <div className="step-head__meta">
+          <span>Why is my QR code not working?</span>
+          <span>You can customize these templates later to match your brand.</span>
+        </div>
+      </div>
+
+      <div className="step-tabs">
+        {tabItems.map((tab) => (
+          <button
+            key={tab.key}
+            className={activeTab === tab.key ? 'step-tab step-tab--active' : 'step-tab'}
+            onClick={() => setActiveTab(tab.key)}
+          >
+            <span className="step-tab__icon"><TabIcon name={tab.icon} /></span>
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="step-two__layout">
+        <div className="step-two__left">
+          {tabContent}
+        </div>
+        <div className="step-two__right">
+          <p className="muted">Always scan to test that your QR code works</p>
+          <QrPreview data={data} style={style} onReady={onReady} loading={loading} />
+          <label className="toggle-row">
+            <input
+              type="checkbox"
+              checked={Boolean(style.saveTemplate)}
+              onChange={(e) => updateStyle('saveTemplate', e.target.checked)}
+            />
+            Save as a template
+          </label>
+          <div className="download-options">
+            <label>
+              <input
+                type="radio"
+                name="ext"
+                checked={downloadExt === 'png'}
+                onChange={() => setDownloadExt('png')}
+              />
+              PNG
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="ext"
+                checked={downloadExt === 'svg'}
+                onChange={() => setDownloadExt('svg')}
+              />
+              SVG
+            </label>
+          </div>
+          <button className="btn btn--success" onClick={onDownload}>Download</button>
         </div>
       </div>
     </div>

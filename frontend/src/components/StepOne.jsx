@@ -1,7 +1,12 @@
-import { useMemo } from 'react';
-
-export default function StepOne({ workflow, data, onDataChange, isDynamic, onToggleDynamic, onGenerate }) {
-  const fields = useMemo(() => {
+export default function StepOne({
+  workflow,
+  data,
+  onDataChange,
+  isDynamic,
+  onToggleDynamic,
+  onGenerate
+}) {
+  const fields = (() => {
     switch (workflow) {
       case 'vcard':
         return [
@@ -28,15 +33,18 @@ export default function StepOne({ workflow, data, onDataChange, isDynamic, onTog
           { key: 'url', label: 'Website URL', placeholder: 'https://www.yoursite.com' }
         ];
     }
-  }, [workflow]);
+  })();
 
   return (
-    <div className="step-card">
-      <div className="step-card__header">
-        <span className="step-chip">Step 1</span>
-        <h3>Enter your {workflow === 'url' ? 'website URL' : 'details'}</h3>
-        <span className="step-link">Learn about dynamic QR codes</span>
+    <div className="step-card step-card--flat">
+      <div className="step-head">
+        <span className="step-pill">Step 1</span>
+        <h3>Enter the {workflow === 'url' ? 'URL of your website' : 'details'}</h3>
+        <div className="step-head__link">
+          Learn how to track data with <span>dynamic QR codes</span>
+        </div>
       </div>
+
       <div className="step-toggle">
         <button
           className={isDynamic ? 'toggle' : 'toggle toggle--active'}
@@ -50,9 +58,10 @@ export default function StepOne({ workflow, data, onDataChange, isDynamic, onTog
         >
           Dynamic QR
         </button>
-        <span className="toggle__hint">Edit & track after printing</span>
+        <span className="toggle__hint">Edit URL | Track data | Learn more</span>
       </div>
-      <div className="form-grid">
+
+      <div className="form-grid form-grid--single">
         {fields.map((field) => (
           <label key={field.key}>
             {field.label}
@@ -70,10 +79,13 @@ export default function StepOne({ workflow, data, onDataChange, isDynamic, onTog
           </label>
         )}
       </div>
-      <div className="step-card__footer">
-        <button className="btn" onClick={onGenerate}>Generate QR code</button>
+
+      <div className="step-note">...or upload an image to extract the URL</div>
+
+      <div className="step-card__footer step-card__footer--bar">
+        <button className="btn btn--muted" onClick={onGenerate}>Generate QR code</button>
         <p className="muted">
-          We recommend dynamic QR for tracking, editing, and scan analytics.
+          We recommend creating a dynamic QR code if you want to track performance and edit data even after printing.
         </p>
       </div>
     </div>

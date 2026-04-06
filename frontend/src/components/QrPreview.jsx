@@ -63,12 +63,18 @@ export default function QrPreview({ data, style, size = 280, onReady, loading })
   }, [data, style, size]);
 
   return (
-    <div className="qr-preview">
+    <div className={loading ? 'qr-preview qr-preview--loading' : 'qr-preview'}>
       <div className="qr-preview__code" ref={containerRef} />
       {loading && (
         <div className="qr-loading">
+          <div className="qr-loading__scan" />
           <div className="spinner" />
           <span>Generating QR...</span>
+          <div className="qr-loading__dots">
+            <span />
+            <span />
+            <span />
+          </div>
         </div>
       )}
     </div>

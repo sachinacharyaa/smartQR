@@ -16,14 +16,19 @@ import PaywallModal from './components/PaywallModal.jsx';
 import { createQr, trackPageView } from './api.js';
 
 const workflows = [
-  { id: 'url', label: 'URL', icon: 'URL' },
-  { id: 'vcard', label: 'vCard', icon: 'VC' },
-  { id: 'file', label: 'File', icon: 'FL' },
-  { id: 'linkpage', label: 'Link Page', icon: 'LP' },
-  { id: 'googleform', label: 'Google Form', icon: 'GF' },
-  { id: 'menu', label: 'Menu', icon: 'MN' },
-  { id: 'app', label: 'App Stores', icon: 'AP' },
-  { id: 'wifi', label: 'WiFi', icon: 'WF' }
+  { id: 'url', label: 'URL', icon: 'url' },
+  { id: 'vcard', label: 'vCard', icon: 'vcard' },
+  { id: 'file', label: 'File', icon: 'file' },
+  { id: 'linkpage', label: 'Link Page', icon: 'linkpage' },
+  { id: 'googleform', label: 'Google Form', icon: 'googleform' },
+  { id: 'menu', label: 'Menu', icon: 'menu' },
+  { id: 'app', label: 'App stores', icon: 'app' },
+  { id: 'landing', label: 'Landing page', icon: 'landing' },
+  { id: 'smart', label: 'Smart URL', icon: 'smart' },
+  { id: 'gs1', label: 'GS1 Digital', icon: 'gs1' },
+  { id: 'mp3', label: 'MP3', icon: 'mp3' },
+  { id: 'video', label: 'Video', icon: 'video' },
+  { id: 'wifi', label: 'Wifi', icon: 'wifi' }
 ];
 
 const defaultStyle = {
@@ -53,6 +58,7 @@ export default function App() {
   const [activeWorkflow, setActiveWorkflow] = useState('url');
   const [stepOneData, setStepOneData] = useState({});
   const [isDynamic, setIsDynamic] = useState(false);
+  const [activeTab, setActiveTab] = useState('Pattern');
   const [style, setStyle] = useState(defaultStyle);
   const [qrData, setQrData] = useState('https://smartqr.io');
   const [paywallOpen, setPaywallOpen] = useState(false);
@@ -173,6 +179,8 @@ export default function App() {
               onGenerate={handleGenerate}
             />
             <StepTwo
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
               style={style}
               setStyle={setStyle}
               data={qrData}
