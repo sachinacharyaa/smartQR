@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 import QRCodeStyling from 'qr-code-styling';
 
 const defaultOptions = {
-  width: 280,
-  height: 280,
-  margin: 8,
+  width: 220,
+  height: 220,
+  margin: 6,
   data: 'https://smartqr.io',
   image: null,
   dotsOptions: { color: '#1f4bd8', type: 'rounded' },
@@ -14,7 +14,23 @@ const defaultOptions = {
   imageOptions: { crossOrigin: 'anonymous', margin: 6 }
 };
 
-export default function QrPreview({ data, style, size = 280, onReady, loading }) {
+// Maps frameChoice → { wrapperClass, labelText, labelClass }
+const FRAME_MAP = {
+  'frame-none':     { wrapperClass: '',                   labelText: null },
+  'frame-simple':   { wrapperClass: 'qr-frame qr-frame--simple',   labelText: 'SCAN ME' },
+  'frame-bold':     { wrapperClass: 'qr-frame qr-frame--bold',     labelText: 'SCAN ME' },
+  'frame-rounded':  { wrapperClass: 'qr-frame qr-frame--rounded',  labelText: 'SCAN ME' },
+  'frame-circle':   { wrapperClass: 'qr-frame qr-frame--circle',   labelText: 'SCAN ME' },
+  'frame-dark':     { wrapperClass: 'qr-frame qr-frame--dark',     labelText: 'SCAN ME', darkLabel: true },
+  'frame-elegant':  { wrapperClass: 'qr-frame qr-frame--elegant',  labelText: 'SCAN ME' },
+  'frame-tag':      { wrapperClass: 'qr-frame qr-frame--tag',      labelText: 'SCAN ME', pill: true },
+  'frame-dotted':   { wrapperClass: 'qr-frame qr-frame--dotted',   labelText: 'SCAN ME' },
+  'frame-double':   { wrapperClass: 'qr-frame qr-frame--double',   labelText: 'SCAN ME' },
+  'frame-shadow':   { wrapperClass: 'qr-frame qr-frame--shadow',   labelText: 'SCAN ME' },
+  'frame-minimal':  { wrapperClass: 'qr-frame qr-frame--minimal',  labelText: 'SCAN ME' },
+};
+
+export default function QrPreview({ data, style = {}, size = 220, onReady, loading }) {
   const containerRef = useRef(null);
   const qrRef = useRef(null);
 
@@ -33,7 +49,7 @@ export default function QrPreview({ data, style, size = 280, onReady, loading })
 
   useEffect(() => {
     if (!qrRef.current) return;
-    const next = {
+    qrRef.current.update({
       ...defaultOptions,
       data: data || defaultOptions.data,
       width: size,
@@ -58,22 +74,29 @@ export default function QrPreview({ data, style, size = 280, onReady, loading })
         crossOrigin: 'anonymous',
         margin: style.logoMargin ?? 6
       }
-    };
-    qrRef.current.update(next);
+    });
   }, [data, style, size]);
+
+  const frameKey = style.frameChoice || 'frame-none';
+  const frame = FRAME_MAP[frameKey] || FRAME_MAP['frame-none'];
 
   return (
     <div className={loading ? 'qr-preview qr-preview--loading' : 'qr-preview'}>
-      <div className="qr-preview__code" ref={containerRef} />
+      <div className={frame.wrapperClass || 'qr-frame-bare'}>
+        <div className="qr-preview__code" ref={containerRef} />
+        {frame.labelText && (
+          frame.pill
+            ? <div className="qr-frame__pill-label">{frame.labelText}</div>
+            : <div className={`qr-frame__label${frame.darkLabel ? ' qr-frame__label--dark' : ''}`}>{frame.labelText}</div>
+        )}
+      </div>
       {loading && (
         <div className="qr-loading">
           <div className="qr-loading__scan" />
           <div className="spinner" />
           <span>Generating QR...</span>
           <div className="qr-loading__dots">
-            <span />
-            <span />
-            <span />
+            <span /><span /><span />
           </div>
         </div>
       )}
