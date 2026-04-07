@@ -12,6 +12,12 @@ const tabItems = [
 
 // Pattern options with qr-code-styling compatible types
 const patternOptions = [
+  { id: 'scatter-blocks', label: 'Scatter Blocks' },
+  { id: 'stack-bars', label: 'Stack Bars' },
+  { id: 'chunky-mix', label: 'Chunky Mix' },
+  { id: 'ink-splash', label: 'Ink Splash' },
+  { id: 'orbit-dots', label: 'Orbit Dots' },
+  { id: 'diamond-grid', label: 'Diamond Grid' },
   { id: 'square', label: 'Square' },
   { id: 'dots', label: 'Dots' },
   { id: 'rounded', label: 'Rounded' },
@@ -102,6 +108,113 @@ const socialLogos = [
 /* ─── SVG Pattern Thumbnails ─── */
 function PatternThumb({ type }) {
   const s = 80;
+  if (type === 'scatter-blocks') {
+    return (
+      <svg viewBox={`0 0 ${s} ${s}`} width={s} height={s}>
+        {Array.from({ length: 7 }).map((_, r) =>
+          Array.from({ length: 7 }).map((_, c) => {
+            const on = (r * 11 + c * 7) % 5 !== 1;
+            const w = (r + c) % 3 === 0 ? 8 : 11;
+            const h = (r + c) % 3 === 1 ? 8 : 11;
+            return on ? (
+              <rect
+                key={`${r}-${c}`}
+                x={c * 11 + (11 - w) / 2 + 2}
+                y={r * 11 + (11 - h) / 2 + 2}
+                width={w}
+                height={h}
+                rx={3}
+                fill="#111"
+              />
+            ) : null;
+          })
+        )}
+      </svg>
+    );
+  }
+  if (type === 'stack-bars') {
+    return (
+      <svg viewBox={`0 0 ${s} ${s}`} width={s} height={s}>
+        {Array.from({ length: 7 }).map((_, r) =>
+          Array.from({ length: 7 }).map((_, c) => {
+            const on = (r + c * 2) % 3 !== 1;
+            const isWide = (r + c) % 2 === 0;
+            return on ? (
+              <rect
+                key={`${r}-${c}`}
+                x={c * 11 + 2}
+                y={r * 11 + 2}
+                width={isWide ? 12 : 8}
+                height={8}
+                rx={4}
+                fill="#111"
+              />
+            ) : null;
+          })
+        )}
+      </svg>
+    );
+  }
+  if (type === 'chunky-mix') {
+    return (
+      <svg viewBox={`0 0 ${s} ${s}`} width={s} height={s}>
+        {Array.from({ length: 7 }).map((_, r) =>
+          Array.from({ length: 7 }).map((_, c) => {
+            const on = (r * c + r + c) % 4 !== 1;
+            const round = (r + c) % 4 === 0 ? 5 : 2;
+            return on ? <rect key={`${r}-${c}`} x={c * 11 + 1} y={r * 11 + 1} width={12} height={12} rx={round} fill="#111" /> : null;
+          })
+        )}
+      </svg>
+    );
+  }
+  if (type === 'ink-splash') {
+    return (
+      <svg viewBox={`0 0 ${s} ${s}`} width={s} height={s}>
+        <defs>
+          <filter id="blur">
+            <feGaussianBlur stdDeviation="0.7" />
+          </filter>
+        </defs>
+        {Array.from({ length: 7 }).map((_, r) =>
+          Array.from({ length: 7 }).map((_, c) => {
+            const on = (r * 9 + c * 5) % 4 !== 0;
+            const rr = (r + c) % 3 === 0 ? 6 : 3;
+            return on ? <rect key={`${r}-${c}`} x={c * 11 + 1} y={r * 11 + 1} width={12} height={12} rx={rr} fill="#111" filter="url(#blur)" /> : null;
+          })
+        )}
+      </svg>
+    );
+  }
+  if (type === 'orbit-dots') {
+    return (
+      <svg viewBox={`0 0 ${s} ${s}`} width={s} height={s}>
+        {Array.from({ length: 7 }).map((_, r) =>
+          Array.from({ length: 7 }).map((_, c) => {
+            const on = (r * 7 + c) % 3 !== 2;
+            const radius = (r + c) % 3 === 0 ? 5 : 3.5;
+            return on ? <circle key={`${r}-${c}`} cx={c * 11 + 7} cy={r * 11 + 7} r={radius} fill="#111" /> : null;
+          })
+        )}
+      </svg>
+    );
+  }
+  if (type === 'diamond-grid') {
+    return (
+      <svg viewBox={`0 0 ${s} ${s}`} width={s} height={s}>
+        {Array.from({ length: 7 }).map((_, r) =>
+          Array.from({ length: 7 }).map((_, c) => {
+            const on = (r + c) % 2 === 0;
+            const cx = c * 11 + 7;
+            const cy = r * 11 + 7;
+            return on ? (
+              <rect key={`${r}-${c}`} x={cx - 4.5} y={cy - 4.5} width={9} height={9} fill="#111" transform={`rotate(45 ${cx} ${cy})`} />
+            ) : null;
+          })
+        )}
+      </svg>
+    );
+  }
   if (type === 'square') {
     return (
       <svg viewBox={`0 0 ${s} ${s}`} width={s} height={s}>
@@ -748,8 +861,7 @@ export default function StepTwo({
                   template: t.id,
                   dotsColor: t.colors.dots,
                   backgroundColor: t.colors.bg,
-                  eyeColor: t.colors.eye,
-                  pattern: t.pattern
+                  eyeColor: t.colors.eye
                 })
               }
               title={t.label}

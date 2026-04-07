@@ -231,9 +231,14 @@ main {
   color: #1c63bf;
 }
 
-.tab--more {
+.tab--more,
+.tab--less {
   background: #ff9800;
   color: #fff;
+}
+
+.tab--quick {
+  color: #e7f1ff;
 }
 
 .tab__icon {

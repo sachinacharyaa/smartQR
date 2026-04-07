@@ -30,6 +30,21 @@ const FRAME_MAP = {
   'frame-minimal':  { wrapperClass: 'qr-frame qr-frame--minimal',  labelText: 'SCAN ME' },
 };
 
+const DOTS_TYPE_MAP = {
+  'scatter-blocks': 'rounded',
+  'stack-bars': 'classy-rounded',
+  'chunky-mix': 'classy',
+  'ink-splash': 'extra-rounded',
+  'orbit-dots': 'dots',
+  'diamond-grid': 'square',
+  square: 'square',
+  dots: 'dots',
+  rounded: 'rounded',
+  classy: 'classy',
+  'classy-rounded': 'classy-rounded',
+  'extra-rounded': 'extra-rounded'
+};
+
 export default function QrPreview({ data, style = {}, size = 220, onReady, loading }) {
   const containerRef = useRef(null);
   const qrRef = useRef(null);
@@ -49,6 +64,7 @@ export default function QrPreview({ data, style = {}, size = 220, onReady, loadi
 
   useEffect(() => {
     if (!qrRef.current) return;
+    const dotsType = DOTS_TYPE_MAP[style.pattern] || 'rounded';
     qrRef.current.update({
       ...defaultOptions,
       data: data || defaultOptions.data,
@@ -57,7 +73,7 @@ export default function QrPreview({ data, style = {}, size = 220, onReady, loadi
       image: style.logo || null,
       dotsOptions: {
         color: style.dotsColor || '#1f4bd8',
-        type: style.pattern || 'rounded'
+        type: dotsType
       },
       cornersSquareOptions: {
         color: style.eyeColor || '#1f4bd8',
