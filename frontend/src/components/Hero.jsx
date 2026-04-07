@@ -1,4 +1,6 @@
 export default function Hero({ onPrimary }) {
+  const heroVisual = `${import.meta.env.BASE_URL || '/'}imageQR.jpg`;
+
   return (
     <section className="hero" id="products">
       <div className="hero__content">
@@ -14,18 +16,7 @@ export default function Hero({ onPrimary }) {
         </div>
       </div>
       <div className="hero__card">
-        <div className="hero__stat">
-          <span>99.99%</span>
-          <small>Scan uptime</small>
-        </div>
-        <div className="hero__stat">
-          <span>150M+</span>
-          <small>Scans tracked</small>
-        </div>
-        <div className="hero__stat">
-          <span>120+</span>
-          <small>Countries served</small>
-        </div>
+        <img src={heroVisual} alt="Scanning a QR code at a restaurant" className="hero__visual" />
       </div>
     </section>
   );
