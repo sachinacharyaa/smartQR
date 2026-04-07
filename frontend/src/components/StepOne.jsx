@@ -1,12 +1,26 @@
+import { getQuickFieldMeta } from '../quickLinkPresets.js';
+
 export default function StepOne({
   workflow,
   data,
   onDataChange,
   isDynamic,
   onToggleDynamic,
-  onGenerate
+  onGenerate,
+  quickPreset
 }) {
+  const quickMeta = quickPreset ? getQuickFieldMeta(quickPreset) : null;
+
   const fields = (() => {
+    if (quickMeta) {
+      return [
+        {
+          key: quickMeta.key,
+          label: quickMeta.label,
+          placeholder: quickMeta.placeholder
+        }
+      ];
+    }
     switch (workflow) {
       case 'vcard':
         return [
@@ -35,11 +49,21 @@ export default function StepOne({
     }
   })();
 
+  const stepTitle = (() => {
+    if (quickMeta) {
+      return quickMeta.stepHeading;
+    }
+    if (workflow === 'url') {
+      return 'URL of your website';
+    }
+    return 'details';
+  })();
+
   return (
     <div className="step-card step-card--flat">
       <div className="step-head">
         <span className="step-pill">Step 1</span>
-        <h3>Enter the {workflow === 'url' ? 'URL of your website' : 'details'}</h3>
+        <h3>Enter the {stepTitle}</h3>
         <div className="step-head__link">
           Learn how to track data with <span>dynamic QR codes</span>
         </div>
@@ -61,6 +85,12 @@ export default function StepOne({
         <span className="toggle__hint">Edit URL | Track data | Learn more</span>
       </div>
 
+      {quickMeta && (
+        <p className="step-note" style={{ marginBottom: '0.75rem' }}>
+          {quickMeta.hint}
+        </p>
+      )}
+
       <div className="form-grid form-grid--single">
         {fields.map((field) => (
           <label key={field.key}>
@@ -72,7 +102,7 @@ export default function StepOne({
             />
           </label>
         ))}
-        {workflow === 'file' && (
+        {workflow === 'file' && !quickPreset && (
           <label>
             Upload file
             <input type="file" onChange={(e) => onDataChange('fileUpload', e.target.files?.[0]?.name || '')} />
@@ -83,7 +113,7 @@ export default function StepOne({
       <div className="step-note">...or upload an image to extract the URL</div>
 
       <div className="step-card__footer step-card__footer--bar">
-        <button className="btn btn--muted" onClick={onGenerate}>Generate QR code</button>
+        <button className="btn btn--success" onClick={onGenerate}>Generate QR code</button>
         <p className="muted">
           We recommend creating a dynamic QR code if you want to track performance and edit data even after printing.
         </p>

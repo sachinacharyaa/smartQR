@@ -14,6 +14,7 @@ import Pricing from './components/Pricing.jsx';
 import Footer from './components/Footer.jsx';
 import PaywallModal from './components/PaywallModal.jsx';
 import { createQr, trackPageView } from './api.js';
+import { buildQuickPresetUrl } from './quickLinkPresets.js';
 
 const workflows = [
   { id: 'url', label: 'URL', icon: 'url' },
@@ -39,6 +40,7 @@ const defaultStyle = {
   eyeColor: '#1f4bd8',
   backgroundColor: '#ffffff',
   logo: null,
+  logoPreset: null,
   logoMargin: 6,
   gradient: false,
   frameText: 'Scan me',
@@ -56,11 +58,12 @@ const defaultStyle = {
 
 export default function App() {
   const [activeWorkflow, setActiveWorkflow] = useState('url');
+  /** When set, Step 1 collects a short handle; full URL is built with a hidden base (e.g. instagram.com/). */
+  const [quickPreset, setQuickPreset] = useState(null);
   const [stepOneData, setStepOneData] = useState({});
   const [isDynamic, setIsDynamic] = useState(false);
   const [activeTab, setActiveTab] = useState('Pattern');
   const [style, setStyle] = useState(defaultStyle);
-  const [qrData, setQrData] = useState('https://smartqr.io');
   const [paywallOpen, setPaywallOpen] = useState(false);
   const [plan, setPlan] = useState('Free');
   const [downloadExt, setDownloadExt] = useState('png');
@@ -86,7 +89,18 @@ export default function App() {
     setStepOneData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const buildDataString = () => {
+  const handleWorkflowChange = (id) => {
+    setActiveWorkflow(id);
+    setQuickPreset(null);
+  };
+
+  const handleQuickSelect = (presetId) => {
+    setActiveWorkflow('url');
+    setQuickPreset(presetId);
+    setStepOneData((prev) => ({ ...prev, socialHandle: '', locationQuery: '' }));
+  };
+
+  const qrData = useMemo(() => {
     if (activeWorkflow === 'vcard') {
       return `BEGIN:VCARD\nVERSION:3.0\nFN:${stepOneData.fullName || ''}\nTITLE:${stepOneData.title || ''}\nTEL:${stepOneData.phone || ''}\nEMAIL:${stepOneData.email || ''}\nEND:VCARD`;
     }
@@ -99,17 +113,17 @@ export default function App() {
     if (activeWorkflow === 'file') {
       return stepOneData.fileName || stepOneData.fileUpload || 'file-placeholder';
     }
+    if (activeWorkflow === 'url' && quickPreset) {
+      return buildQuickPresetUrl(quickPreset, stepOneData);
+    }
     return stepOneData.url || 'https://smartqr.io';
-  };
+  }, [activeWorkflow, quickPreset, stepOneData]);
 
   const handleGenerate = async () => {
-    const nextData = buildDataString();
-
     if (generateTimeoutRef.current) clearTimeout(generateTimeoutRef.current);
     setIsGenerating(true);
 
     generateTimeoutRef.current = setTimeout(() => {
-      setQrData(nextData);
       setIsGenerating(false);
     }, 2000);
 
@@ -121,7 +135,7 @@ export default function App() {
     try {
       await createQr({
         type: activeWorkflow,
-        payload: stepOneData,
+        payload: { ...stepOneData, quickPreset, encodedUrl: qrData },
         style: safeStyle,
         isDynamic,
         plan: plan.toLowerCase()
@@ -168,7 +182,13 @@ export default function App() {
 
       <main>
         <section className="generator" id="generator">
-          <WorkflowTabs workflows={workflows} active={activeWorkflow} onChange={setActiveWorkflow} />
+          <WorkflowTabs
+            workflows={workflows}
+            active={activeWorkflow}
+            onChange={handleWorkflowChange}
+            quickPreset={quickPreset}
+            onQuickSelect={handleQuickSelect}
+          />
           <div className="generator__steps">
             <StepOne
               workflow={activeWorkflow}
@@ -177,6 +197,7 @@ export default function App() {
               isDynamic={isDynamic}
               onToggleDynamic={setIsDynamic}
               onGenerate={handleGenerate}
+              quickPreset={quickPreset}
             />
             <StepTwo
               activeTab={activeTab}

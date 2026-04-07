@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import QrPreview from './QrPreview.jsx';
+import { BRAND_CENTER_LOGOS } from '../brandPresetLogos.js';
 
 const tabItems = [
   { key: 'Pattern', label: 'Pattern', icon: 'pattern' },
@@ -81,16 +82,9 @@ const templatePresets = [
   { id: 'temp-neon', label: 'Neon', colors: { dots: '#00e676', bg: '#1b1b2f', eye: '#76ff03' }, pattern: 'dots' }
 ];
 
-// Social media logos with proper colors
-const socialLogos = [
+// Real center logos (SVG in /public/logos) + extra emoji presets
+const socialLogosEmoji = [
   { id: 'facebook', label: 'FB', color: '#1877F2', icon: 'f' },
-  { id: 'instagram', label: 'IG', color: '#E4405F', icon: '📷' },
-  { id: 'pinterest', label: 'Pin', color: '#E60023', icon: 'P' },
-  { id: 'x-twitter', label: 'X', color: '#000000', icon: '𝕏' },
-  { id: 'youtube', label: 'YT', color: '#FF0000', icon: '▶' },
-  { id: 'snapchat', label: 'SC', color: '#FFFC00', icon: '👻', textColor: '#000' },
-  { id: 'tiktok', label: 'TT', color: '#000000', icon: '♪' },
-  { id: 'linkedin', label: 'LI', color: '#0A66C2', icon: 'in' },
   { id: 'whatsapp', label: 'WA', color: '#25D366', icon: '📱' },
   { id: 'telegram', label: 'TG', color: '#26A5E4', icon: '✈' },
   { id: 'scan-me', label: 'ME', color: '#ffffff', icon: 'SCAN', textColor: '#000', border: true },
@@ -104,6 +98,8 @@ const socialLogos = [
   { id: 'wechat', label: 'WC', color: '#07C160', icon: '💬' },
   { id: 'yelp', label: 'YP', color: '#FF1A1A', icon: '★' }
 ];
+
+const socialLogos = [...BRAND_CENTER_LOGOS, ...socialLogosEmoji];
 
 /* ─── SVG Pattern Thumbnails ─── */
 function PatternThumb({ type }) {
@@ -621,12 +617,12 @@ export default function StepTwo({
                     const file = e.target.files?.[0];
                     if (!file) return;
                     const reader = new FileReader();
-                    reader.onload = () => updateStyle('logo', reader.result);
+                    reader.onload = () => updateMultiStyle({ logo: reader.result, logoPreset: null });
                     reader.readAsDataURL(file);
                   }}
                 />
               </label>
-              <button className="ghost" onClick={() => updateStyle('logo', null)}>Remove logo</button>
+              <button className="ghost" onClick={() => updateMultiStyle({ logo: null, logoPreset: null })}>Remove logo</button>
             </div>
             <div className="logo-upload__formats">
               <p>Supported formats:</p>
@@ -639,21 +635,52 @@ export default function StepTwo({
 
           <h4 className="logo-section-title">Or use our available logos:</h4>
           <div className="logo-grid">
-            {socialLogos.map((item) => (
-              <button
-                key={item.id}
-                className={style.logoPreset === item.id ? 'social-logo-btn social-logo-btn--active' : 'social-logo-btn'}
-                onClick={() => updateStyle('logoPreset', item.id)}
-                title={item.label}
-                style={{
-                  background: item.color,
-                  color: item.textColor || '#fff',
-                  border: item.border ? '1.5px solid #d6dee9' : '1.5px solid transparent'
-                }}
-              >
-                <span className="social-logo-icon">{item.icon}</span>
-              </button>
-            ))}
+            {socialLogos.map((item) => {
+              const isBrand = Boolean(item.src);
+              const isActive = style.logoPreset === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={
+                    (isActive ? 'social-logo-btn social-logo-btn--active' : 'social-logo-btn') +
+                    (isBrand ? ' social-logo-btn--brand' : '')
+                  }
+                  onClick={() => {
+                    if (isBrand) {
+                      updateMultiStyle({
+                        logoPreset: item.id,
+                        logo: item.src,
+                        dotsColor: item.matchDots,
+                        eyeColor: item.matchEye
+                      });
+                    } else {
+                      updateMultiStyle({ logoPreset: item.id, logo: null });
+                    }
+                  }}
+                  title={item.label}
+                  style={
+                    isBrand
+                      ? {
+                          background: item.btnBg,
+                          color: '#1c63bf',
+                          border: item.border ? '1.5px solid #d6dee9' : '1.5px solid transparent'
+                        }
+                      : {
+                          background: item.color,
+                          color: item.textColor || '#fff',
+                          border: item.border ? '1.5px solid #d6dee9' : '1.5px solid transparent'
+                        }
+                  }
+                >
+                  {isBrand ? (
+                    <img className="social-logo-img" src={item.src} alt="" width={36} height={36} />
+                  ) : (
+                    <span className="social-logo-icon">{item.icon}</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
       );

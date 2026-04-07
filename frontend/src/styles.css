@@ -237,8 +237,22 @@ main {
   color: #fff;
 }
 
-.tab--quick {
+/* Quick shortcuts (More row): light text on blue bar — but not when selected */
+.tab--quick:not(.tab--active) {
   color: #e7f1ff;
+}
+
+.tab--quick.tab--active {
+  color: #1c63bf;
+}
+
+.tab--quick.tab--active .tab__icon {
+  background: rgba(28, 99, 191, 0.14);
+  color: #1c63bf;
+}
+
+.tab--quick.tab--active .tab__icon svg {
+  color: #1c63bf;
 }
 
 .tab__icon {
@@ -729,6 +743,19 @@ main {
 .social-logo-icon {
   font-size: 1rem;
   line-height: 1;
+}
+
+.social-logo-btn--brand {
+  border-radius: 14px;
+  padding: 4px;
+}
+
+.social-logo-img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
 }
 
 /* ═══ Color Section ═══ */

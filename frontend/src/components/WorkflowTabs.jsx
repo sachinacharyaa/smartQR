@@ -11,7 +11,7 @@ const quickFeatures = [
   { id: 'location', label: 'Location' }
 ];
 
-export default function WorkflowTabs({ workflows, active, onChange }) {
+export default function WorkflowTabs({ workflows, active, onChange, quickPreset, onQuickSelect }) {
   const [moreOpen, setMoreOpen] = useState(false);
 
   return (
@@ -36,18 +36,21 @@ export default function WorkflowTabs({ workflows, active, onChange }) {
 
       {moreOpen && (
         <>
-          {quickFeatures.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className="tab tab--quick"
-              onClick={() => onChange('url')}
-              title={item.label}
-            >
-              <span className="tab__icon">{QuickFeatureIcons[item.id]}</span>
-              <span className="tab__label">{item.label}</span>
-            </button>
-          ))}
+          {quickFeatures.map((item) => {
+            const isQuickActive = active === 'url' && quickPreset === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                className={isQuickActive ? 'tab tab--active tab--quick' : 'tab tab--quick'}
+                onClick={() => onQuickSelect(item.id)}
+                title={item.label}
+              >
+                <span className="tab__icon">{QuickFeatureIcons[item.id]}</span>
+                <span className="tab__label">{item.label}</span>
+              </button>
+            );
+          })}
           <button type="button" className="tab tab--less" onClick={() => setMoreOpen(false)} aria-expanded="true">
             <span className="tab__icon">{WorkflowTabIcons.less}</span>
             <span className="tab__label">Less</span>
