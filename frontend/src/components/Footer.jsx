@@ -12,7 +12,7 @@ export default function Footer() {
         <div>
           <h4>Product</h4>
           <a href="#products">Generator</a>
-          <a href="#pricing">Pricing</a>
+          <a href="/pricing-plans">Pricing</a>
           <a href="#faq">FAQ</a>
         </div>
         <div>

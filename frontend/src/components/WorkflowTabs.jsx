@@ -17,14 +17,21 @@ export default function WorkflowTabs({ workflows, active, onChange, quickPreset,
   return (
     <div className="workflow-tabs">
       {workflows.map((item) => (
+        (() => {
+          const isBaseActive = active === item.id;
+          const isSuppressedUrlActive = item.id === 'url' && Boolean(quickPreset);
+          const isActive = isBaseActive && !isSuppressedUrlActive;
+          return (
         <button
           key={item.id}
-          className={active === item.id ? 'tab tab--active' : 'tab'}
+          className={isActive ? 'tab tab--active' : 'tab'}
           onClick={() => onChange(item.id)}
         >
           <span className="tab__icon">{WorkflowTabIcons[item.icon]}</span>
           <span className="tab__label">{item.label}</span>
         </button>
+          );
+        })()
       ))}
 
       {!moreOpen && (

@@ -1,15 +1,64 @@
-export default function Navbar() {
+import { useState } from 'react';
+
+const solutionItems = [
+  { id: 'link', label: 'Link to QR Code' },
+  { id: 'pdf', label: 'PDF to QR Code' },
+  { id: 'instagram', label: 'QR Code for Instagram' },
+  { id: 'location', label: 'Location QR Code Generator' },
+  { id: 'youtube', label: 'YouTube QR Code' }
+];
+
+export default function Navbar({ onSelectSolution, onOpenPricing }) {
+  const [openMenu, setOpenMenu] = useState(null);
+  const toggleMenu = (menu) => setOpenMenu((prev) => (prev === menu ? null : menu));
+  const homeHref = import.meta.env.BASE_URL || '/';
+
   return (
     <nav className="nav">
-      <div className="nav__logo">
+      <a href={homeHref} className="nav__logo">
         <span className="logo-mark">S</span>
         <span>smartQR</span>
-      </div>
+      </a>
       <div className="nav__links">
-        <a href="#products">Products</a>
-        <a href="#solutions">Solutions</a>
-        <a href="#learn">Learn</a>
-        <a href="#pricing">Pricing</a>
+        <div className={openMenu === 'solutions' ? 'nav__menu-item nav__menu-item--dropdown nav__menu-item--open' : 'nav__menu-item nav__menu-item--dropdown'}>
+          <button
+            type="button"
+            className={openMenu === 'solutions' ? 'nav__menu-btn nav__menu-btn--active' : 'nav__menu-btn'}
+            onClick={() => toggleMenu('solutions')}
+            aria-expanded={openMenu === 'solutions'}
+          >
+            Solutions <span className={openMenu === 'solutions' ? 'nav__arrow nav__arrow--open' : 'nav__arrow'}>{openMenu === 'solutions' ? '▴' : '▾'}</span>
+          </button>
+          <div className="nav__dropdown">
+            <h4>RESOURCES</h4>
+            <div className="nav__dropdown-grid">
+              {solutionItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className="nav__dropdown-link"
+                  onClick={() => {
+                    onSelectSolution?.(item.id, { openInNewTab: true });
+                    setOpenMenu(null);
+                  }}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="nav__menu-item">
+          <button
+            type="button"
+            className={openMenu === 'learn' ? 'nav__menu-btn nav__menu-btn--active' : 'nav__menu-btn'}
+            onClick={() => toggleMenu('learn')}
+            aria-expanded={openMenu === 'learn'}
+          >
+            Learn <span className={openMenu === 'learn' ? 'nav__arrow nav__arrow--open' : 'nav__arrow'}>{openMenu === 'learn' ? '▴' : '▾'}</span>
+          </button>
+        </div>
+        <button type="button" className="nav__menu-btn" onClick={onOpenPricing}>Pricing</button>
         <a href="#faq">FAQ</a>
       </div>
       <div className="nav__actions">
