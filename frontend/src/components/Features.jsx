@@ -25,17 +25,30 @@ const features = [
   }
 ];
 
+const cardBackgrounds = [
+  'linear-gradient(135deg, #fff0f4 0%, #f8d9ff 100%)',
+  'linear-gradient(135deg, #fff7e0 0%, #ffe1c2 100%)',
+  'linear-gradient(135deg, #e8f7ff 0%, #d9e6ff 100%)',
+  'linear-gradient(135deg, #e8fff3 0%, #d7f3e8 100%)',
+  'linear-gradient(135deg, #f3f0ff 0%, #e0e6ff 100%)',
+  'linear-gradient(135deg, #fff3e8 0%, #ffe7d6 100%)'
+];
+
 export default function Features() {
   return (
     <section className="features">
-      <h2>Everything you need in an all-in-one QR platform</h2>
-      <p className="muted">
+      <h2 className="features__title">Everything you need in an all-in-one QR platform</h2>
+      <p className="features__lead muted">
         smartQR is built to solve real-world problems with dynamic routing, analytics,
         and collaboration that stand out from basic generators.
       </p>
       <div className="features__grid">
-        {features.map((feature) => (
-          <div className="feature-card" key={feature.title}>
+        {features.map((feature, idx) => (
+          <div
+            className="feature-card"
+            key={feature.title}
+            style={{ background: cardBackgrounds[idx % cardBackgrounds.length] }}
+          >
             <h4>{feature.title}</h4>
             <p>{feature.description}</p>
           </div>

@@ -61,11 +61,6 @@ export const WorkflowTabIcons = {
       <circle cx="12" cy="15" r="1" fill="currentColor" />
     </svg>
   ),
-  gs1: (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M5 4h2v16H5zM9 4h1v16H9zM12 4h3v16h-3zM17 4h2v16h-2z" fill="currentColor" />
-    </svg>
-  ),
   mp3: (
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M9 18a3 3 0 1 1 0-6v-6l8-2v6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />

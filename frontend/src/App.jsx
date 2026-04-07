@@ -7,10 +7,10 @@ import StepTwo from './components/StepTwo.jsx';
 import TrustedBy from './components/TrustedBy.jsx';
 import WhatIsQr from './components/WhatIsQr.jsx';
 import HowTo from './components/HowTo.jsx';
-import Templates from './components/Templates.jsx';
 import Features from './components/Features.jsx';
 import Faq from './components/Faq.jsx';
 import Pricing from './components/Pricing.jsx';
+import CustomerStories from './components/CustomerStories.jsx';
 import Footer from './components/Footer.jsx';
 import PaywallModal from './components/PaywallModal.jsx';
 import InstagramBenefits from './components/InstagramBenefits.jsx';
@@ -32,7 +32,6 @@ const workflows = [
   { id: 'app', label: 'App stores', icon: 'app' },
   { id: 'landing', label: 'Landing page', icon: 'landing' },
   { id: 'smart', label: 'Smart URL', icon: 'smart' },
-  { id: 'gs1', label: 'GS1 Digital', icon: 'gs1' },
   { id: 'mp3', label: 'MP3', icon: 'mp3' },
   { id: 'video', label: 'Video', icon: 'video' },
   { id: 'wifi', label: 'Wifi', icon: 'wifi' }
@@ -73,6 +72,7 @@ const solutionPages = [
 const solutionById = Object.fromEntries(solutionPages.map((s) => [s.id, s]));
 const solutionByPath = Object.fromEntries(solutionPages.map((s) => [`/solutions/${s.slug}`, s]));
 const PRICING_PATH = '/pricing-plans';
+const STORIES_PATH = '/customer-stories';
 
 export default function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -156,12 +156,22 @@ export default function App() {
 
   const isSolutionPage = Boolean(solutionByPath[currentPath]);
   const isPricingPage = currentPath === PRICING_PATH;
+  const isStoriesPage = currentPath === STORIES_PATH;
 
   const openPricingPage = () => {
     if (currentPath !== PRICING_PATH) {
       window.history.pushState({}, '', PRICING_PATH);
       setCurrentPath(PRICING_PATH);
       trackPageView(PRICING_PATH);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const openStoriesPage = () => {
+    if (currentPath !== STORIES_PATH) {
+      window.history.pushState({}, '', STORIES_PATH);
+      setCurrentPath(STORIES_PATH);
+      trackPageView(STORIES_PATH);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -279,26 +289,26 @@ export default function App() {
   );
 
   return (
-    <div className={isPricingPage ? 'app app--pricing' : 'app'}>
-      <div className={isPricingPage ? 'hero-bg hero-bg--compact' : 'hero-bg'}>
+    <div className={isPricingPage ? 'app app--pricing' : isStoriesPage ? 'app app--stories' : 'app'}>
+      <div className={isPricingPage || isStoriesPage ? 'hero-bg hero-bg--compact' : 'hero-bg'}>
         <Navbar onSelectSolution={handleSolutionSelect} onOpenPricing={openPricingPage} />
-        {!isSolutionPage && !isPricingPage && (
+        {!isSolutionPage && !isPricingPage && !isStoriesPage && (
           <Hero onPrimary={() => document.getElementById('generator')?.scrollIntoView({ behavior: 'smooth' })} />
         )}
       </div>
 
       <main>
-        {!isPricingPage && generatorSection}
-        {!isSolutionPage && !isPricingPage && (
+        {!isPricingPage && !isStoriesPage && generatorSection}
+        {!isSolutionPage && !isPricingPage && !isStoriesPage && (
           <>
-            <TrustedBy />
+            <TrustedBy onOpenStories={openStoriesPage} />
             <WhatIsQr />
             <HowTo />
-            <Templates />
             <Features />
             <Faq />
           </>
         )}
+        {isStoriesPage && <CustomerStories />}
         {isPricingPage && <Pricing onSelectPlan={setPlan} />}
       </main>
 
@@ -312,3 +322,4 @@ export default function App() {
     </div>
   );
 }
+

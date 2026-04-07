@@ -1,11 +1,11 @@
 import { useState } from 'react';
-
 const slides = [
   [
     { title: 'Trackable QR Code', cta: 'Create Trackable Qr Code', theme: 'track', image: 'trackableQR.jpg' },
     { title: 'Picture', cta: 'Create Picture QR Code', theme: 'picture', image: 'pictureQR.jpg' },
     { title: 'Wi-Fi', cta: 'Create Wi-Fi QR Code', theme: 'wifi', image: 'wifiQR.jpg' }
   ],
+  
   [
     { title: 'Venmo', cta: 'Create Venmo QR Code', theme: 'venmo' },
     { title: 'Facebook', cta: 'Create Facebook QR Code', theme: 'facebook' },
@@ -32,7 +32,7 @@ export default function HowTo() {
         From Wi-Fi access to PDF downloads, smartQR supports dozens of code types so you can connect anything to anyone.
       </p>
       <div className="howto__carousel">
-        <button className="howto__arrow" onClick={prev} aria-label="Previous slide">‹</button>
+        <button className="howto__arrow" onClick={prev} aria-label="Previous slide">&lsaquo;</button>
         <div className="howto__grid">
           {visible.map((card) => (
             <article className="howto__card" key={card.title}>
@@ -52,7 +52,7 @@ export default function HowTo() {
             </article>
           ))}
         </div>
-        <button className="howto__arrow" onClick={next} aria-label="Next slide">›</button>
+        <button className="howto__arrow" onClick={next} aria-label="Next slide">&rsaquo;</button>
       </div>
       <div className="howto__dots">
         {slides.map((_, idx) => (
