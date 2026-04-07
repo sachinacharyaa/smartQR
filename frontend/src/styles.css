@@ -1353,14 +1353,172 @@ main {
 
 .howto__grid {
   display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  flex: 1;
 }
 
 .howto__card {
-  background: #f7f9ff;
-  border-radius: 18px;
-  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid #e7ebf4;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(15, 44, 125, 0.06);
+  height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.howto__title {
+  text-align: center;
+  font-size: clamp(1.8rem, 2.5vw, 3rem);
+  margin-bottom: 0.5rem;
+}
+
+.howto__sub {
+  text-align: center;
+  color: #526182;
+  margin-bottom: 1.3rem;
+}
+
+.howto__carousel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  min-height: 360px;
+  padding: 0 2.5rem;
+  overflow: visible;
+}
+
+.howto__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #d7deed;
+  background: #fff;
+  color: #8a97b6;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.howto__arrow:first-of-type {
+  left: -6px;
+}
+
+.howto__arrow:last-of-type {
+  right: -6px;
+}
+
+.howto__arrow:hover {
+  color: #5567a0;
+  border-color: #bec9e1;
+  box-shadow: 0 4px 10px rgba(17, 45, 120, 0.12);
+}
+
+.howto__card-media {
+  height: 170px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: #edf1fb;
+}
+
+.howto__card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.howto__card-media--track { background: linear-gradient(135deg, #d8eaff, #f2f7ff); }
+.howto__card-media--picture { background: linear-gradient(135deg, #d9f4ff, #e8f1ff); }
+.howto__card-media--wifi { background: linear-gradient(135deg, #ffe8c7, #fff0dc); }
+.howto__card-media--venmo { background: linear-gradient(135deg, #e8f1ff, #f1f6ff); }
+.howto__card-media--facebook { background: linear-gradient(135deg, #eaf2ff, #f6f9ff); }
+.howto__card-media--instagram { background: linear-gradient(135deg, #ffe8f3, #f4efff); }
+.howto__card-media--form { background: linear-gradient(135deg, #eaf4ff, #f2f7ff); }
+.howto__card-media--review { background: linear-gradient(135deg, #fff0d8, #fff7e9); }
+.howto__card-media--more { background: linear-gradient(135deg, #e3f6ff, #eef8ff); }
+
+.howto__qr {
+  width: 74px;
+  height: 74px;
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, #111 50%, transparent 0) 0 0/10px 10px,
+    linear-gradient(#111 50%, transparent 0) 0 0/10px 10px,
+    #fff;
+  box-shadow: inset 0 0 0 6px #fff, 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.howto__card h3 {
+  text-align: center;
+  margin: 1rem 0 0.8rem;
+  font-size: 1.35rem;
+}
+
+.howto__card-title {
+  min-height: 2.9rem;
+  display: grid;
+  place-items: center;
+  padding: 0 0.75rem;
+}
+
+.howto__cta {
+  margin: auto auto 1rem;
+  display: block;
+  border: none;
+  background: #6650ad;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.55rem 1rem;
+  width: calc(100% - 1.5rem);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.howto__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.howto__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid #a5b1c9;
+  background: #fff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.howto__dot--active {
+  background: #6550ad;
+  border-color: #6550ad;
+}
+
+@media (max-width: 1100px) {
+  .howto__carousel {
+    padding: 0 2rem;
+  }
+
+  .howto__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .howto__card {
+    height: auto;
+  }
 }
 
 .templates {
