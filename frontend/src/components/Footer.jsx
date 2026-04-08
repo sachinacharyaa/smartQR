@@ -21,12 +21,6 @@ export default function Footer() {
           <a href="#solutions">Templates</a>
           <a href="#">Support</a>
         </div>
-        <div>
-          <h4>Company</h4>
-          <a href="#">About</a>
-          <a href="#">Careers</a>
-          <a href="#">Contact</a>
-        </div>
       </div>
       <div className="footer__cta">
         <h4>Get product updates</h4>

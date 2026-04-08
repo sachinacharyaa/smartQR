@@ -26,12 +26,12 @@ const features = [
 ];
 
 const cardBackgrounds = [
-  'linear-gradient(135deg, #fff0f4 0%, #f8d9ff 100%)',
-  'linear-gradient(135deg, #fff7e0 0%, #ffe1c2 100%)',
-  'linear-gradient(135deg, #e8f7ff 0%, #d9e6ff 100%)',
-  'linear-gradient(135deg, #e8fff3 0%, #d7f3e8 100%)',
-  'linear-gradient(135deg, #f3f0ff 0%, #e0e6ff 100%)',
-  'linear-gradient(135deg, #fff3e8 0%, #ffe7d6 100%)'
+  'linear-gradient(135deg, #ffe1ea 0%, #ffb8d5 100%)',
+  'linear-gradient(135deg, #fff2d6 0%, #ffcba8 100%)',
+  'linear-gradient(135deg, #dff6ff 0%, #b6e3ff 100%)',
+  'linear-gradient(135deg, #efe6ff 0%, #d7c3ff 100%)',
+  'linear-gradient(135deg, #e1fff3 0%, #b8f3da 100%)',
+  'linear-gradient(135deg, #fff6cc 0%, #f6d58d 100%)'
 ];
 
 export default function Features() {

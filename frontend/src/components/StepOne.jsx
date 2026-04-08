@@ -82,7 +82,6 @@ export default function StepOne({
         >
           Dynamic QR
         </button>
-        <span className="toggle__hint">Edit URL | Track data | Learn more</span>
       </div>
 
       {quickMeta && (
@@ -109,8 +108,6 @@ export default function StepOne({
           </label>
         )}
       </div>
-
-      <div className="step-note">...or upload an image to extract the URL</div>
 
       <div className="step-card__footer step-card__footer--bar">
         <button className="btn btn--success" onClick={onGenerate}>Generate QR code</button>

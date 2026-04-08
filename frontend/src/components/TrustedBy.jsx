@@ -27,7 +27,7 @@ export default function TrustedBy({ onOpenStories }) {
       return undefined;
     }
 
-    const speed = 24; // px per second
+    const speed = 28; // px per second
 
     const step = (time) => {
       if (!lastTimeRef.current) lastTimeRef.current = time;
@@ -70,9 +70,12 @@ export default function TrustedBy({ onOpenStories }) {
         <button className="btn btn--alt trusted__cta" onClick={onOpenStories}>Read customer success stories</button>
       </div>
       <div className="trusted__logos" aria-label="Trusted by">
-        <div className="trusted__logos-track" ref={trackRef}>
-          {items.map((logo) => (
-            <span className="trusted__logo" key={logo}>{logo}</span>
+        <div
+          className="trusted__logos-track"
+          ref={trackRef}
+        >
+          {items.map((logo, idx) => (
+            <span className="trusted__logo" key={`${logo}-${idx}`}>{logo}</span>
           ))}
         </div>
       </div>

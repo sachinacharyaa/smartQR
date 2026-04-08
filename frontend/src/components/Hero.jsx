@@ -12,7 +12,6 @@ export default function Hero({ onPrimary }) {
         </p>
         <div className="hero__actions">
           <button className="btn" onClick={onPrimary}>Create a FREE QR code</button>
-          <button className="btn btn--alt">Watch demo</button>
         </div>
       </div>
       <div className="hero__card">

@@ -1,20 +1,14 @@
 import { useState } from 'react';
 const slides = [
   [
-    { title: 'Trackable QR Code', cta: 'Create Trackable Qr Code', theme: 'track', image: 'trackableQR.jpg' },
+    { title: 'Trackable', cta: 'Create Trackable Qr Code', theme: 'track', image: 'track.jpg' },
     { title: 'Picture', cta: 'Create Picture QR Code', theme: 'picture', image: 'pictureQR.jpg' },
     { title: 'Wi-Fi', cta: 'Create Wi-Fi QR Code', theme: 'wifi', image: 'wifiQR.jpg' }
   ],
-  
   [
-    { title: 'Venmo', cta: 'Create Venmo QR Code', theme: 'venmo' },
-    { title: 'Facebook', cta: 'Create Facebook QR Code', theme: 'facebook' },
-    { title: 'Instagram', cta: 'Create Instagram QR Code', theme: 'instagram', image: 'instagram QR.jpg' }
-  ],
-  [
+    { title: 'Instagram', cta: 'Create Instagram QR Code', theme: 'instagram', image: 'instagram QR.jpg' },
     { title: 'Google Form', cta: 'Create Google Form QR Code', theme: 'form', image: 'google form QR code.jpg' },
-    { title: 'Google Review', cta: 'Create Google Review QR Code', theme: 'review', image: 'google review QR.jpg' },
-    { title: 'More Use Cases', cta: 'View All Use Cases', theme: 'more' }
+    { title: 'Google Review', cta: 'Create Google Review QR Code', theme: 'review', image: 'google review QR.jpg' }
   ]
 ];
 

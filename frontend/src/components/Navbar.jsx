@@ -48,23 +48,12 @@ export default function Navbar({ onSelectSolution, onOpenPricing }) {
             </div>
           </div>
         </div>
-        <div className="nav__menu-item">
-          <button
-            type="button"
-            className={openMenu === 'learn' ? 'nav__menu-btn nav__menu-btn--active' : 'nav__menu-btn'}
-            onClick={() => toggleMenu('learn')}
-            aria-expanded={openMenu === 'learn'}
-          >
-            Learn <span className={openMenu === 'learn' ? 'nav__arrow nav__arrow--open' : 'nav__arrow'}>{openMenu === 'learn' ? '▴' : '▾'}</span>
-          </button>
-        </div>
         <button type="button" className="nav__menu-btn" onClick={onOpenPricing}>Pricing</button>
         <a href="#faq">FAQ</a>
       </div>
       <div className="nav__actions">
         <button className="ghost">Log in</button>
         <button className="btn">Register</button>
-        <div className="nav__lang">Eng ?</div>
       </div>
     </nav>
   );

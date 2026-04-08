@@ -1360,19 +1360,23 @@ main {
 }
 
 .trusted__logos-track {
-  --logo-gap: 2.75rem;
+  --logo-gap: 1.9rem;
   display: flex;
   gap: var(--logo-gap);
   width: max-content;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   will-change: transform;
 }
 
 .trusted__logo {
+  min-width: 160px;
+  text-align: center;
   font-weight: 700;
   opacity: 0.85;
   white-space: nowrap;
-}.stories {
+}
+
+.stories {
   margin-top: 3rem;
   background: var(--surface);
   padding: 2.5rem;
@@ -1533,7 +1537,16 @@ main {
   display: block;
 }
 
-.howto__card-media--track { background: linear-gradient(135deg, #d8eaff, #f2f7ff); }
+/* Trackable image is visually tighter in source; keep it slightly smaller in-frame */
+.howto__card-media--track .howto__card-image {
+  width: 96%;
+  height: 96%;
+  object-fit: contain;
+  margin: auto;
+  border-radius: 10px;
+}
+
+.howto__card-media--track { background: #fff; }
 .howto__card-media--picture { background: linear-gradient(135deg, #d9f4ff, #e8f1ff); }
 .howto__card-media--wifi { background: linear-gradient(135deg, #ffe8c7, #fff0dc); }
 .howto__card-media--venmo { background: linear-gradient(135deg, #e8f1ff, #f1f6ff); }
@@ -1815,7 +1828,7 @@ main {
   border: 1px solid var(--border);
   background: #fff;
   border-radius: 16px;
-  padding: 1rem;
+  padding: 1.15rem 1.2rem;
   cursor: pointer;
 }
 
@@ -1823,6 +1836,15 @@ main {
   display: flex;
   justify-content: space-between;
   font-weight: 600;
+  font-size: 1.08rem;
+  line-height: 1.45;
+}
+
+.faq-item p,
+.faq-item__answer {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #46557a;
 }
 
 .footer {
