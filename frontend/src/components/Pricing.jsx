@@ -1,22 +1,22 @@
 import { useState } from 'react';
 
 const individualPlans = [
-  {
-    name: 'Free',
-    price: 'Free',
-    note: 'No credit card required',
-    cta: 'Try for free',
-    features: [
-      'Unlimited static QR codes',
-      '3 dynamic QR codes',
-      '500 scans per dynamic QR',
-      'Basic scan analytics',
-      'Basic support'
-    ]
-  },
+  // {
+  //   name: 'Free',
+  //   price: 'Free',
+  //   note: 'No credit card required',
+  //   cta: 'Try for free',
+  //   features: [
+  //     'Unlimited static QR codes',
+  //     '3 dynamic QR codes',
+  //     '500 scans per dynamic QR',
+  //     'Basic scan analytics',
+  //     'Basic support'
+  //   ]
+  // },
   {
     name: 'Regular',
-    price: 'US$7',
+    price: 'US$9',
     note: 'Billed monthly',
     cta: 'Buy now',
     features: [
@@ -30,7 +30,7 @@ const individualPlans = [
   },
   {
     name: 'Advanced',
-    price: 'US$16',
+    price: 'US$19',
     note: 'Billed annually',
     cta: 'Buy now',
     badge: 'Most Popular',
